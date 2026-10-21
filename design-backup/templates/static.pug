@@ -1,0 +1,56 @@
+doctype html
+html
+  head
+    meta(charset='UTF-8')
+    title Sota Sports Talk
+    link(rel='icon' href='/images/favicon.png' type='image/png')
+    link(rel='stylesheet' href='/css/main.css')
+    link(rel='stylesheet', href='https://fonts.googleapis.com/css2?family=Audiowide&display=swap')
+    link(rel='stylesheet', href='https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap')
+  body
+    .logo
+      h1 SOTA SPORTS TALK
+
+    .content
+      .sidebar
+        p.status
+          | Status: 
+          if user
+            if user.admin
+              span.green Logged In Admin
+            else
+              span.green Logged In User
+          else
+            span.red Logged Out
+
+        h2 CATEGORIES
+
+        ul.categories
+          li 
+            a(href="/all/1") All
+          li 
+            a(href="/recent") Recent
+          li 
+            a(href="/vikings") Vikings
+          li 
+            a(href="/wild") Wild
+          li 
+            a(href="/timberwolves") Timberwolves
+          li 
+            a(href="/twins") Twins
+
+        if user
+          form(action="/logout" method="POST")
+            button.logout(type="submit") Log Out
+        else 
+          a(href="/login")   
+            button.login Login
+          a(href="/register")   
+            button.register Register
+
+        if user
+          a(href="/post")   
+              button.post Add Blog Post
+
+      .center
+        block centerContent

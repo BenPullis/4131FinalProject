@@ -1,0 +1,51 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1')
+    title Sota Sports Talk
+    link(rel='icon' href='/images/favicon.png' type='image/png')
+    link(rel='preconnect' href='https://fonts.googleapis.com')
+    link(rel='preconnect' href='https://fonts.gstatic.com' crossorigin)
+    link(rel='stylesheet' href='https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Source+Sans+3:wght@400;600;700&display=swap')
+    link(rel='stylesheet' href='/css/main.css')
+  body
+    header.logo
+      a(href="/")
+        h1 SOTA SPORTS TALK
+      .headerActions
+        if user
+          a.btn.btnPrimary.post(href="/post") Add Blog Post
+          form(action="/logout" method="POST")
+            button.btn.btnGhost.logout(type="submit") Log Out
+        else
+          a.btn.btnPrimary.login(href="/login") Login
+          a.btn.btnGhost.register(href="/register") Register
+
+    .content
+      nav.sidebar
+        p.status
+          if user
+            span.dot.on
+            | Signed in as #[strong #{user.username}]
+            if user.admin
+              span.adminBadge Admin
+          else
+            span.dot.off
+            | Logged out
+
+        h2 CATEGORIES
+
+        ul.categories
+          li
+            a(href="/all/1" class=(path && path.startsWith("/all") ? "active" : "")) All
+          li
+            a(href="/recent" class=(path === "/recent" || path === "/" ? "active" : "")) Recent
+          each team in ["Vikings", "Wild", "Timberwolves", "Twins"]
+            - const slug = team.toLowerCase()
+            li
+              a(href=`/${slug}` class=[`team-${slug}`, path === `/${slug}` ? "active" : ""])= team
+
+
+      main.center
+        block centerContent

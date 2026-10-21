@@ -1,0 +1,33 @@
+extends static.pug
+
+block centerContent
+    h1 Edit Your Post
+    .formdiv
+        form#editPost
+            input(type="hidden" id="id" name="id" value=post.id)
+
+            label.label(for='title') New Title:
+            input(type="text" name="title" id="title" value= post.title)
+
+            label.label(for='team') New Category:
+            .row
+                input(type="radio" id="vikings" name="team" value="Vikings" checked=(post.category === "Vikings") required)
+                label(for="vikings") Vikings
+
+            .row
+                input(type="radio" id="wild" name="team" value="Wild" checked=(post.category === "Wild") required)
+                label(for="wild") Wild
+
+            .row
+                input(type="radio" id="timberwolves" name="team" value="Timberwolves" checked=(post.category === "Timberwolves") required)
+                label(for="timberwolves") Timberwolves
+
+            .row
+                input(type="radio" id="twins" name="team" value="Twins" checked=(post.category === "Twins") required)
+                label(for="twins") Twins
+    
+            label.label(for='content') New Content:
+            textarea(name="content" id="content") #{post.content}
+    
+            button#submitButton(type='submit') Edit Blog Post
+    script(src='/js/editPost.js' defer='')

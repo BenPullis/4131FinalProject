@@ -1,0 +1,18 @@
+extends static.pug
+
+block centerContent
+    h1.pageTitle Comments
+    if comments.length
+        a.backLink(href=`/posts/${comments[0].post_id}`) &larr; Back to post
+    ul.comments
+        each c in comments
+            li.singleComment
+                p.commentName #{c.commenter_name}
+                p.commentText #{c.comment}
+                if user && (user.admin || user.username == c.commenter_name)
+                    .commentButtons
+                        a.editCommentButton.btn.btnSmall(href=`/editComment/${c.comment_id}`) Edit Comment
+                        button.deleteCommentButton.btn.btnSmall.btnDanger(type="button" data-id=c.comment_id) Delete Comment
+        else
+            p.empty No comments yet.
+    script(src='/js/deleteComment.js' defer='')

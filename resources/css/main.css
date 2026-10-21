@@ -1,0 +1,721 @@
+/* ---------- Design tokens ---------- */
+:root {
+    --navy: #0B1D33;
+    --navy-light: #16304F;
+    --gold: #FFB81C;
+    --gold-dark: #E5A200;
+    --bg: #F3F4F6;
+    --card: #FFFFFF;
+    --ink: #111827;
+    --muted: #4B5563;
+    --border: #E5E7EB;
+    --on-dark: #E5E7EB;
+    --danger: #B91C1C;
+    --success: #22C55E;
+
+    --vikings: #4F2683;
+    --wild: #154734;
+    --timberwolves: #236192;
+    --twins: #C8102E;
+
+    /* brighter versions for use on the navy sidebar */
+    --vikings-light: #B79CEB;
+    --wild-light: #5FC08A;
+    --timberwolves-light: #6FB3EA;
+    --twins-light: #F06A82;
+
+    --radius: 10px;
+    --shadow: 0 1px 2px rgba(17, 24, 39, 0.06), 0 2px 8px rgba(17, 24, 39, 0.06);
+    --shadow-hover: 0 4px 16px rgba(17, 24, 39, 0.12);
+    --font-display: 'Bebas Neue', 'Impact', sans-serif;
+    --font-body: 'Source Sans 3', system-ui, sans-serif;
+}
+
+.team-vikings      { --team: var(--vikings);      --team-light: var(--vikings-light); }
+.team-wild         { --team: var(--wild);         --team-light: var(--wild-light); }
+.team-timberwolves { --team: var(--timberwolves); --team-light: var(--timberwolves-light); }
+.team-twins        { --team: var(--twins);        --team-light: var(--twins-light); }
+
+/* ---------- Base ---------- */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: 17px;
+    line-height: 1.55;
+    color: var(--ink);
+    background-color: var(--bg);
+}
+
+a {
+    color: inherit;
+}
+
+:focus-visible {
+    outline: 3px solid var(--gold);
+    outline-offset: 2px;
+}
+
+/* ---------- Header ---------- */
+.logo {
+    position: relative;
+    background-color: var(--navy);
+    border-bottom: 4px solid var(--gold);
+    padding: 18px 24px;
+    text-align: center;
+}
+
+.logo a {
+    text-decoration: none;
+}
+
+.logo h1 {
+    margin: 0;
+    color: #FFFFFF;
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(40px, 6vw, 72px);
+    letter-spacing: 3px;
+    line-height: 1;
+}
+
+/* ---------- Layout ---------- */
+.content {
+    display: flex;
+    min-height: calc(100vh - 110px);
+}
+
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    flex: 0 0 240px;
+    padding: 24px 20px;
+    background-color: var(--navy-light);
+    color: var(--on-dark);
+}
+
+.center {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 24px 24px 48px;
+}
+
+/* ---------- Sidebar ---------- */
+.status {
+    margin: 0 0 28px;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.status strong {
+    color: #FFFFFF;
+}
+
+.dot {
+    display: inline-block;
+    width: 9px;
+    height: 9px;
+    margin-right: 8px;
+    border-radius: 50%;
+}
+
+.dot.on  { background-color: var(--success); }
+.dot.off { background-color: #9CA3AF; }
+
+.adminBadge {
+    display: inline-block;
+    margin-left: 6px;
+    padding: 0 7px;
+    border-radius: 999px;
+    background-color: var(--gold);
+    color: var(--navy);
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.sidebar h2 {
+    margin: 0 0 10px;
+    color: #9CA3AF;
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 22px;
+    letter-spacing: 2px;
+}
+
+.categories {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.categories a {
+    display: block;
+    margin-bottom: 4px;
+    padding: 8px 12px;
+    border-left: 4px solid transparent;
+    border-radius: 4px;
+    color: var(--on-dark);
+    font-family: var(--font-display);
+    font-size: 26px;
+    letter-spacing: 1px;
+    line-height: 1.2;
+    text-decoration: none;
+    transition: background-color 150ms ease, border-color 150ms ease;
+}
+
+.categories a:hover {
+    background-color: rgba(255, 255, 255, 0.07);
+    border-left-color: var(--team-light, var(--gold));
+}
+
+.categories a.active {
+    background-color: rgba(255, 255, 255, 0.12);
+    border-left-color: var(--team-light, var(--gold));
+    color: #FFFFFF;
+}
+
+.headerActions {
+    position: absolute;
+    top: 50%;
+    right: 24px;
+    transform: translateY(-50%);
+    display: flex;
+    gap: 10px;
+}
+
+.headerActions form {
+    margin: 0;
+}
+
+.headerActions .btnGhost {
+    border-color: rgba(255, 255, 255, 0.4);
+    color: #FFFFFF;
+}
+
+.headerActions .btnGhost:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: #FFFFFF;
+}
+
+/* ---------- Buttons ---------- */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 8px 18px;
+    border: 2px solid transparent;
+    border-radius: 6px;
+    background: none;
+    font-family: var(--font-body);
+    font-size: 16px;
+    font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease;
+}
+
+.btnPrimary {
+    background-color: var(--gold);
+    color: var(--navy);
+}
+
+.btnPrimary:hover {
+    background-color: var(--gold-dark);
+}
+
+.btnGhost {
+    border-color: var(--navy);
+    color: var(--navy);
+}
+
+.btnSmall {
+    min-height: 36px;
+    padding: 4px 12px;
+    font-size: 14px;
+    border-color: var(--border);
+    background-color: var(--card);
+    color: var(--ink);
+}
+
+.btnSmall:hover {
+    border-color: var(--navy);
+}
+
+.btnDanger {
+    color: var(--danger);
+}
+
+.btnDanger:hover {
+    border-color: var(--danger);
+    background-color: var(--danger);
+    color: #FFFFFF;
+}
+
+/* ---------- Page headings ---------- */
+.pageTitle {
+    margin: 8px 0 24px;
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(40px, 5vw, 56px);
+    letter-spacing: 1px;
+    line-height: 1;
+    text-align: center;
+}
+
+.pageTitle::after {
+    content: "";
+    display: block;
+    width: 64px;
+    height: 4px;
+    margin: 10px auto 0;
+    border-radius: 2px;
+    background-color: var(--team, var(--gold));
+}
+
+.empty {
+    color: var(--muted);
+    text-align: center;
+}
+
+/* ---------- Post cards ---------- */
+.posts {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+    max-width: 680px;
+}
+
+.singlePost {
+    position: relative;
+    padding: 18px 22px;
+    border-left: 6px solid var(--team, var(--navy));
+    border-radius: var(--radius);
+    background-color: var(--card);
+    box-shadow: var(--shadow);
+    transition: box-shadow 200ms ease, transform 200ms ease;
+}
+
+.singlePost:hover,
+.singlePost:focus-within {
+    box-shadow: var(--shadow-hover);
+    transform: scale(1.02);
+}
+
+.cardMeta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 6px;
+    color: var(--muted);
+    font-size: 14px;
+}
+
+.teamTag {
+    display: inline-block;
+    /* Bebas Neue sits high in its line box, so pad the top a bit more */
+    padding: 5px 11px 3px;
+    line-height: 1;
+    border-radius: 999px;
+    background-color: var(--team, var(--navy));
+    color: #FFFFFF;
+    font-family: var(--font-display);
+    font-size: 16px;
+    letter-spacing: 1px;
+    text-decoration: none;
+}
+
+.t {
+    display: block;
+    color: var(--ink);
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1.3;
+    text-decoration: none;
+}
+
+/* stretch the title link over the whole card so the card is clickable */
+.t::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+}
+
+.singlePost:hover .t {
+    color: var(--team, var(--navy));
+}
+
+.t:focus-visible {
+    outline: none;
+}
+
+.singlePost:has(.t:focus-visible) {
+    outline: 3px solid var(--gold);
+    outline-offset: 2px;
+}
+
+/* keep the other links in the card clickable above the stretched title link */
+.teamTag,
+.addAComment {
+    position: relative;
+    z-index: 1;
+}
+
+.previewContent {
+    margin: 8px 0 12px;
+    color: var(--muted);
+}
+
+.cardFooter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+    color: var(--muted);
+}
+
+.addAComment {
+    color: var(--team, var(--navy));
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.addAComment:hover {
+    text-decoration: underline;
+}
+
+/* ---------- Pagination ---------- */
+.browse {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+}
+
+#prevOn, #nextOn, #prevOff, #nextOff {
+    min-width: 96px;
+    padding: 8px 14px;
+    border: 2px solid var(--navy);
+    border-radius: 6px;
+    font-weight: 700;
+    text-align: center;
+    text-decoration: none;
+}
+
+#prevOn, #nextOn {
+    color: var(--navy);
+    cursor: pointer;
+    transition: background-color 150ms ease, color 150ms ease;
+}
+
+#prevOn:hover, #nextOn:hover {
+    background-color: var(--navy);
+    color: #FFFFFF;
+}
+
+#prevOff, #nextOff {
+    border-color: var(--border);
+    color: #9CA3AF;
+    cursor: default;
+}
+
+/* ---------- Single post ---------- */
+.postFull {
+    width: 100%;
+    max-width: 760px;
+    padding: 28px 32px;
+    border-top: 6px solid var(--team, var(--navy));
+    border-radius: var(--radius);
+    background-color: var(--card);
+    box-shadow: var(--shadow);
+}
+
+.individualTitle {
+    margin: 8px 0 4px;
+    font-size: clamp(28px, 4vw, 38px);
+    line-height: 1.2;
+}
+
+.postedBy {
+    margin: 0;
+    color: var(--muted);
+    font-weight: 600;
+}
+
+.editButtons {
+    display: flex;
+    gap: 10px;
+    margin-top: 14px;
+}
+
+.postContent {
+    margin: 22px 0;
+    font-size: 18px;
+    line-height: 1.7;
+    white-space: pre-wrap;
+}
+
+/* ---------- Comments ---------- */
+.backLink {
+    margin: -12px 0 16px;
+    color: var(--navy);
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.backLink:hover {
+    text-decoration: underline;
+}
+
+.comments {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    max-width: 680px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.singleComment {
+    padding: 16px 20px;
+    border-radius: var(--radius);
+    background-color: var(--card);
+    box-shadow: var(--shadow);
+}
+
+.commentName {
+    margin: 0 0 4px;
+    font-weight: 700;
+}
+
+.commentText {
+    margin: 0;
+    white-space: pre-wrap;
+}
+
+.commentButtons {
+    display: flex;
+    gap: 10px;
+    margin-top: 12px;
+}
+
+/* ---------- Forms ---------- */
+.formdiv {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.formCard {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    max-width: 520px;
+    padding: 24px;
+    border-radius: var(--radius);
+    background-color: var(--card);
+    box-shadow: var(--shadow);
+}
+
+#createComment {
+    max-width: 760px;
+    margin-top: 24px;
+}
+
+.formCard h2 {
+    margin: 0 0 4px;
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 30px;
+    letter-spacing: 1px;
+}
+
+.label {
+    font-weight: 700;
+}
+
+.formCard input[type="text"],
+.formCard input[type="password"],
+textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #D1D5DB;
+    border-radius: 6px;
+    background-color: #FFFFFF;
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 16px;
+}
+
+textarea {
+    min-height: 180px;
+    resize: vertical;
+}
+
+.formCard input:focus,
+textarea:focus {
+    border-color: var(--navy);
+    outline: 2px solid var(--gold);
+    outline-offset: 0;
+}
+
+#submitButton {
+    margin-top: 8px;
+}
+
+.formError {
+    margin: 0;
+    padding: 10px 12px;
+    border-radius: 6px;
+    background-color: #FEE2E2;
+    color: var(--danger);
+    font-weight: 600;
+}
+
+/* team radio buttons, shown as pills */
+.teamPicker {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+
+.teamPicker legend {
+    margin-bottom: 8px;
+    padding: 0;
+}
+
+.row input {
+    position: absolute;
+    opacity: 0;
+}
+
+.row label {
+    display: inline-block;
+    padding: 6px 14px;
+    border: 2px solid var(--team);
+    border-radius: 999px;
+    color: var(--team);
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 150ms ease, color 150ms ease;
+}
+
+.row input:checked + label {
+    background-color: var(--team);
+    color: #FFFFFF;
+}
+
+.row input:focus-visible + label {
+    outline: 3px solid var(--gold);
+    outline-offset: 2px;
+}
+
+/* ---------- GIF pages ---------- */
+.gifCard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    max-width: 560px;
+    padding: 28px;
+    border-radius: var(--radius);
+    background-color: var(--card);
+    box-shadow: var(--shadow);
+    text-align: center;
+}
+
+.gifCard .pageTitle {
+    margin-bottom: 0;
+}
+
+.gifCard img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 6px;
+}
+
+/* ---------- Medium screens: header buttons drop below the title ---------- */
+@media (max-width: 1000px) {
+    .headerActions {
+        position: static;
+        transform: none;
+        justify-content: center;
+        margin-top: 12px;
+    }
+}
+
+/* ---------- Small screens: sidebar becomes a top bar ---------- */
+@media (max-width: 800px) {
+    .content {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .sidebar {
+        flex: none;
+        padding: 14px 16px;
+    }
+
+    .status {
+        margin-bottom: 10px;
+    }
+
+    .sidebar h2 {
+        display: none;
+    }
+
+    .categories {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+    }
+
+    .categories a {
+        margin: 0;
+        padding: 4px 10px;
+        border-left: none;
+        border-bottom: 3px solid transparent;
+        font-size: 20px;
+    }
+
+    .categories a:hover,
+    .categories a.active {
+        border-bottom-color: var(--team-light, var(--gold));
+    }
+
+    .center {
+        padding: 20px 16px 40px;
+    }
+
+    .postFull {
+        padding: 20px;
+    }
+
+    .browse {
+        gap: 12px;
+    }
+
+    #prevOn, #nextOn, #prevOff, #nextOff {
+        min-width: 0;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    * {
+        transition: none !important;
+    }
+}

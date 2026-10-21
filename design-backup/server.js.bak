@@ -1,0 +1,506 @@
+const express = require('express')
+const session = require("express-session");
+const bcrypt = require('bcrypt')
+const dataMethods = require("./data.js");
+// const cookieParser = require('cookie-parser');
+const app = express()
+const port = process.env.PORT || 4131
+
+const categories= ["Twins", "Vikings", "Wild", "Timberwolves"];
+
+
+
+//Middlewear
+
+app.use(express.static('resources'));
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    httpOnly: true,
+    secure: false,
+  }
+}));
+
+app.use((req, res, next) => {
+  res.locals.user = req.session.user;
+  next();
+});
+
+
+app.set("views", "templates");
+app.set("view engine", "pug");
+
+// app.use(cookieParser());
+
+function myMiddlewear(req, res, next) {
+  res.on("finish", () =>{
+    console.log("Method: " + req["method"] + "      Url: " + req["url"] + "     Status Code: " + res.statusCode );
+  });
+
+  next();
+}
+
+app.use(myMiddlewear);
+
+
+//All the GET's
+
+app.get(["/", "/recent"], async (req, res) => {
+  const user = req.session.userId ? {
+    username: req.session.username,
+    admin: req.session.admin
+  } : null;
+
+  const posts = await dataMethods.getRecentPosts(5);
+
+  return res.status(200).render("recent.pug", {posts, user});
+});
+
+app.get("/all/:page", async (req, res) => {
+  const user = req.session.userId ? {
+    username: req.session.username,
+    admin: req.session.admin
+  } : null;
+
+  const page = Number(req.params.page)
+
+  if (!Number.isInteger(page) || page < 1) {
+    return res.status(404).render("404.pug", {user});
+  }
+
+  const posts = await dataMethods.getAllPosts(page);
+
+  return res.status(200).render("all.pug", {posts, page, user});
+});
+
+app.get("/twins", async (req, res) => {
+  const user = req.session.userId ? {
+    username: req.session.username,
+    admin: req.session.admin
+  } : null;
+  
+  const posts = await dataMethods.getPostsByCategory("Twins");
+
+  return res.status(200).render("twins.pug", {posts, user});
+});
+
+app.get("/vikings", async (req, res) => {
+  const user = req.session.userId ? {
+    username: req.session.username,
+    admin: req.session.admin
+  } : null;
+  
+  const posts = await dataMethods.getPostsByCategory("Vikings");
+
+  return res.status(200).render("vikings.pug", {posts, user});
+});
+
+app.get("/wild", async (req, res) => {
+  const user = req.session.userId ? {
+    username: req.session.username,
+    admin: req.session.admin
+  } : null;
+  
+  const posts = await dataMethods.getPostsByCategory("Wild");
+
+  return res.status(200).render("wild.pug", {posts, user});
+});
+
+app.get("/timberwolves", async (req, res) => {
+  const user = req.session.userId ? {
+    username: req.session.username,
+    admin: req.session.admin
+  } : null;
+  
+  const posts = await dataMethods.getPostsByCategory("Timberwolves");
+
+  return res.status(200).render("timberwolves.pug", {posts, user});
+});
+
+app.get("/post", (req, res) => {
+  const user = req.session.userId ? {
+    username: req.session.username,
+    admin: req.session.admin
+  } : null;
+
+  return res.status(200).render("post.pug", {user});
+});
+
+app.get("/comments/:id", async(req, res) => {
+  const user = req.session.userId ? {
+    username: req.session.username,
+    admin: req.session.admin
+  } : null;
+
+  const id = req.params.id;
+  const comments = await dataMethods.getCommentsById(id);
+
+  if(!comments){
+    return res.status(404).render("404.pug", {user});
+  }
+
+  return res.status(200).render("comments.pug", {comments, user});
+});
+
+app.get("/deleteOk", (req, res) => {
+  const user = req.session.userId ? {
+    username: req.session.username,
+    admin: req.session.admin
+  } : null;
+
+  return res.status(200).render("deleteOk.pug", {user});
+});
+
+app.get("/editPost/:id", async(req, res) => {
+  const user = req.session.userId ? {
+    username: req.session.username,
+    admin: req.session.admin
+  } : null;
+
+  const id = req.params.id;
+  const post = await dataMethods.getPostById(id);
+
+  if(!post){
+    console.log("We Here")
+    return res.status(404).render("404.pug", {user});
+  }
+
+  return res.status(200).render("editPost.pug", {post, user});
+});
+
+app.get("/posts/:id", async(req, res) => {
+  const user = req.session.userId ? {
+    username: req.session.username,
+    admin: req.session.admin
+  } : null;
+
+  const id = req.params.id;
+  const post = await dataMethods.getPostById(id);
+
+  if(!post){
+    return res.status(404).render("404.pug", {user});
+  }
+
+  return res.status(200).render("content.pug", {post, user});
+});
+
+app.get("/editComment/:id", async(req, res) => {
+  const user = req.session.userId ? {
+    username: req.session.username,
+    admin: req.session.admin
+  } : null;
+
+  const id = req.params.id;
+  const comment = await dataMethods.getCommentById(id);
+
+  if(!comment){
+    return res.status(404).render("404.pug", {user});
+  }
+
+  return res.status(200).render("editComment.pug", {comment, user});
+});
+
+app.get("/login", (req, res) => {
+  const user = req.session.userId ? {
+    username: req.session.username,
+    admin: req.session.admin
+  } : null;
+
+  return res.status(200).render("login.pug", {user, query: req.query});
+});
+
+app.get("/register", (req, res) => {
+  const user = req.session.userId ? {
+    username: req.session.username,
+    admin: req.session.admin
+  } : null;
+
+  return res.status(200).render("register.pug", { user, query: req.query });
+});
+
+app.get("/makeMeAdmin", async(req, res) => {
+  if(!req.session.userId){
+    return res.status(404).render("404.pug", {user:null});
+  }
+  const id = req.session.userId;
+  await dataMethods.makeAdmin(id);
+  req.session.admin = true;
+
+  const user =  {
+    username: req.session.username,
+    admin: req.session.admin
+  };
+
+  res.status(200).render("admin.pug", {user});
+});
+
+
+//All the POST's
+
+app.post("/newPost", async (req, res) => {
+  
+  const data = req.body;
+
+  if(!data || JSON.stringify(data) === "{}"){
+    res.status(400).json({
+      "status" : "error",
+      "errors": ["Empty Body"]
+    });
+    return;
+  }
+
+  const title = data.title === "" ? -1 : data.title;
+  const category = data.category === "" ? -1 : data.category;
+  const content = data.content === "" ? -1 : data.content;
+
+  if(title === -1 || title.length > 75){
+    res.status(400).json({
+      "status" : "error",
+      "errors": ["Bad Title"]
+    });
+    return;
+  }
+
+  if(category === -1 || !(categories.includes(category))){
+    res.status(400).json({
+      "status" : "error",
+      "errors": ["Bad Category"]
+    });
+    return;
+  }
+
+  if(content === -1){
+    res.status(400).json({
+      "status" : "error",
+      "errors": ["Bad Content"]
+    });
+    return;
+  }
+
+  const temp = {
+    title: title,
+    category: category,
+    content: content,
+    user: req.session.username
+  };
+
+  await dataMethods.addPost(temp);
+
+  return res.status(200).send("OK");
+});
+
+app.post("/newComment", async (req, res) => {
+  const data = req.body;
+
+  if(!data || JSON.stringify(data) === "{}"){
+    res.status(400).json({
+      "status" : "error",
+      "errors": ["Empty Body"]
+    });
+    return;
+  }
+
+  const name = data.name ?? -1;
+  const content = data.content ?? -1;
+  const postId = data.postId ?? -1;
+
+  if(name === -1 || name.length > 30){
+    res.status(400).json({
+      "status" : "error",
+      "errors": ["Bad Name"]
+    });
+    return;
+  }
+
+  if(content === -1){
+    res.status(400).json({
+      "status" : "error",
+      "errors": ["Bad Content"]
+    });
+    return;
+  }
+
+  if(postId === -1){
+    res.status(400).json({
+      "status" : "error",
+      "errors": ["Bad PostId"]
+    });
+    return;
+  }
+
+  const temp = {
+    name: name,
+    content: content,
+    postId: postId
+  };
+
+  await dataMethods.addComment(temp);
+
+  return res.status(200).send("OK");
+
+});
+
+app.post("/login", async (req, res) => {
+  const data = req.body;
+
+  const username = data.username === "" ? -1 : data.username;
+  const password = data.password === "" ? -1 : data.password;
+
+  if(username == -1 || password == -1){
+    return res.redirect(`/login?error=${encodeURIComponent("Something Went Wrong Please Try Again.")}`);
+  }
+
+
+  var result = await dataMethods.getPassByUN(username);
+
+  if(result === -1){
+    return res.redirect(`/login?error=${encodeURIComponent("Username Or Password Incorrect.")}`);
+  }
+
+  if(bcrypt.compareSync(password, result.password)){
+    req.session.userId = result.user_id;
+    req.session.username = result.username;
+    req.session.admin = result.admin;
+  }
+  else{
+    return res.redirect(`/login?error=${encodeURIComponent("Username Or Password Incorrect.")}`);
+  }
+
+  return res.redirect("/all/1");
+});
+
+app.post("/register", async (req, res) => {
+  const data = req.body;
+
+  const username = data.username === "" ? -1 : data.username;
+  const password = data.password === "" ? -1 : data.password;
+
+  if(username == -1 || password == -1){
+    return res.redirect(`/register?error=${encodeURIComponent("Something Went Wrong Please Try Again.")}`);
+  }
+  if(username.length > 20){
+    return res.redirect(`/register?error=${encodeURIComponent("Username Too Long. Must Be 20 Characters Or Less")}`);
+  }
+
+  const hashedPW = await bcrypt.hashSync(password, 10);
+
+  try{
+    var result = await dataMethods.addNewUser(username, hashedPW);
+  }
+  catch(err){
+    return res.redirect(`/register?error=${encodeURIComponent("Username Already Exists. Please Try Again.")}`);
+  }
+
+  req.session.userId = result.insertId;
+  req.session.username = username;
+  req.session.admin = false;
+
+  return res.redirect("/all/1");
+});
+
+app.post("/logout", (req, res) => {
+  req.session.destroy(() => {
+    return res.redirect("/all/1");
+  });
+
+});
+
+
+//All the PUT's
+
+app.put("/editPost", async (req, res) => {
+  const data = req.body;
+
+  if(!data || JSON.stringify(data) === "{}"){
+    res.status(400).json({
+      "status" : "error",
+      "errors": ["Empty Body"]
+    });
+    return;
+  }
+
+  const post = await dataMethods.getPostById(data.id);
+
+  const title = data.title === "" ? post.title : data.title;
+  const category = data.category === "" ? post.category : data.category;
+  const content = data.content === "" ? post.content : data.content;
+
+  const temp = {
+    title: title,
+    category: category,
+    content: content,
+    id: data.id
+  };
+
+  await dataMethods.editPost(temp);
+
+  return res.status(200).send("OK");
+});
+
+app.put("/editComment", async (req, res) => {
+  const data = req.body;
+
+  if(!data || JSON.stringify(data) === "{}"){
+    res.status(400).json({
+      "status" : "error",
+      "errors": ["Empty Body"]
+    });
+    return;
+  }
+
+  const comment = await dataMethods.getCommentById(data.commentId);
+
+  const content = data.content === "" ? comment.comment : data.content;
+
+  const temp = {
+    content: content,
+    id: data.commentId
+  };
+
+  await dataMethods.editComment(temp);
+
+  return res.status(200).send("OK");
+
+});
+
+
+//All the DELETE's
+
+app.delete("/deletePost/:id", async (req, res) => {
+  const id = req.params.id
+  const deleted = await dataMethods.deletePost(id);
+  if(deleted === 0){
+    return res.status(404).send("Not Found");
+  }
+    return res.status(200).send("OK")
+});
+
+app.delete("/deleteComment/:id", async (req, res) => {
+  const commentId = req.params.id
+  const deleted = await dataMethods.deleteComment(commentId);
+  if(deleted === 0){
+    return res.status(404).send("Not Found");
+  }
+    return res.status(200).send("OK")
+});
+
+
+//404
+
+app.use((req, res) => {
+  const user = req.session.userId ? {
+    username: req.session.username,
+    admin: req.session.admin
+  } : null;
+
+  return res.status(404).render("404.pug", {user});
+});
+
+app.listen(port, () => {
+  console.log(`Final Project listening on port ${port}`);
+});

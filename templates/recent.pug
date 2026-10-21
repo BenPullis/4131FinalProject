@@ -1,0 +1,11 @@
+extends static.pug
+
+block centerContent
+    include mixins/postCard.pug
+    h1.pageTitle Recent Blogs
+
+    .posts
+        each post in posts
+            +postCard(post)
+        else
+            p.empty No posts yet.

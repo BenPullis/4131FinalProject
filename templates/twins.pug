@@ -1,0 +1,11 @@
+extends static.pug
+
+block centerContent
+    include mixins/postCard.pug
+    h1.pageTitle(class="team-twins") Twins Blogs
+
+    .posts
+        each post in posts
+            +postCard(post)
+        else
+            p.empty No Twins posts yet.

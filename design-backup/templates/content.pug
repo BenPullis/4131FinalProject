@@ -1,0 +1,27 @@
+extends static.pug
+
+block centerContent
+    - const d = new Date(post.created)
+    h1.individualTitle #{post.title}
+    if user && (user.admin || user.username == post.user)
+        .editButtons
+            a#editPostButton(href=`/editPost/${post.id}`) Edit Post
+            a#deletePostButton(data-id=post.id) Delete Post
+    h2.postedOn Posted On #{(d.getMonth()+1).toString().padStart(2,'0')}-#{d.getDate().toString().padStart(2,'0')}-#{d.getFullYear().toString().slice(2)}
+    h2.postedBy Posted By: #{post.user}
+    p.postContent #{post.content}
+    a#viewCommentsButton(href=`/comments/${post.id}`) View Comments (#{post.commentCount})
+    if user
+        h2 Add A Comment
+        .formdiv
+            form#createComment
+                input(type="hidden" id="postId" name="postId" value=post.id)
+
+                input(type="hidden" name="name" id="title" value=user.username)
+        
+                label.label(for='content') Comment:
+                textarea(name="content" id="content" placeholder="Write your comment...")
+        
+                button#submitButton(type='submit') Submit Comment
+    script(src='/js/comment.js' defer='')
+    script(src='/js/deletePost.js' defer='')

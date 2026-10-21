@@ -1,0 +1,32 @@
+extends static.pug
+
+block centerContent
+    h1 Create Blog Post
+    if user
+        .formdiv
+            form#createPost
+                label.label(for='title') Title:
+                input(type="text" name="title" id="title" placeholder="Enter Title")
+
+                label.label(for='team') Category:
+                .row
+                    <input type="radio" id="vikings" name="team" value="Vikings" required>
+                    <label for="vikings">Vikings</label><br>
+                .row
+                    <input type="radio" id="wild" name="team" value="Wild" required>
+                    <label for="wild">Wild</label>
+                .row
+                    <input type="radio" id="timberwolves" name="team" value="Timberwolves" required>
+                    <label for="timberwolves">Timberwolves</label><br>
+                .row
+                    <input type="radio" id="twins" name="team" value="Twins" required>
+                    <label for="twins">Twins</label><br>
+        
+                label.label(for='content') Content:
+                textarea(name="content" id="content" placeholder="Write your Post...")
+        
+                button#submitButton(type='submit') Create Blog Post
+    else 
+        h2 You Need To Be Logged In To Post
+
+    script(src='/js/post.js' defer='')

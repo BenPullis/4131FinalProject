@@ -1,0 +1,26 @@
+extends static.pug
+
+block centerContent
+    h1.pageTitle Create Blog Post
+    if user
+        .formdiv
+            form#createPost.formCard
+                label.label(for='title') Title:
+                input(type="text" name="title" id="title" placeholder="Enter Title")
+
+                fieldset.teamPicker
+                    legend.label Category:
+                    each team in ["Vikings", "Wild", "Timberwolves", "Twins"]
+                        - const slug = team.toLowerCase()
+                        .row(class=`team-${slug}`)
+                            input(type="radio" id=slug name="team" value=team required)
+                            label(for=slug)= team
+
+                label.label(for='content') Content:
+                textarea(name="content" id="content" placeholder="Write your Post...")
+
+                button#submitButton.btn.btnPrimary(type='submit') Create Blog Post
+    else
+        p.empty You Need To Be Logged In To Post
+
+    script(src='/js/post.js' defer='')

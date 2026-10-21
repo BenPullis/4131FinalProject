@@ -1,0 +1,15 @@
+extends static.pug
+
+block centerContent
+    h1 Register
+    if query.error 
+        h2 #{query.error}
+    .formdiv
+        form#account(action="/register" method="POST")
+            label.label(for='username') Create Username:
+            input(type="text" name="username" id="username" placeholder="Enter Username" required)
+
+            label.label(for='password') Create Password:
+            input(type="password" name="password" id="password" placeholder="Enter Password" required)
+    
+            button#submitButton(type='submit') Register

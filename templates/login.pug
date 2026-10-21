@@ -1,0 +1,15 @@
+extends static.pug
+
+block centerContent
+    h1.pageTitle Login
+    .formdiv
+        form#account.formCard(action="/login" method="POST")
+            if query.error
+                p.formError #{query.error}
+            label.label(for='username') Username:
+            input(type="text" name="username" id="username" placeholder="Enter Username" required)
+
+            label.label(for='password') Password:
+            input(type="password" name="password" id="password" placeholder="Enter Password" required)
+
+            button#submitButton.btn.btnPrimary(type='submit') Login

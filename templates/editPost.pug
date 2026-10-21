@@ -1,0 +1,24 @@
+extends static.pug
+
+block centerContent
+    h1.pageTitle Edit Your Post
+    .formdiv
+        form#editPost.formCard
+            input(type="hidden" id="id" name="id" value=post.id)
+
+            label.label(for='title') New Title:
+            input(type="text" name="title" id="title" value= post.title)
+
+            fieldset.teamPicker
+                legend.label New Category:
+                each team in ["Vikings", "Wild", "Timberwolves", "Twins"]
+                    - const slug = team.toLowerCase()
+                    .row(class=`team-${slug}`)
+                        input(type="radio" id=slug name="team" value=team checked=(post.category === team) required)
+                        label(for=slug)= team
+
+            label.label(for='content') New Content:
+            textarea(name="content" id="content") #{post.content}
+
+            button#submitButton.btn.btnPrimary(type='submit') Edit Blog Post
+    script(src='/js/editPost.js' defer='')

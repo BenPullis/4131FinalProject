@@ -1,0 +1,31 @@
+extends static.pug
+
+block centerContent
+    .browse
+        if(page >= 2)
+            a#prevOn(href=`/all/${page-1}`) Previous
+        else 
+            a#prevOff Previous
+        h1 All Blogs
+        if(posts.length == 5)   
+            a#nextOn(href=`/all/${page+1}`) Next
+        else 
+            a#nextOff Next
+    .posts
+        each post in posts 
+            .singlePost
+                ul 
+                    - const d = new Date(post.created)
+                    li
+                        a.t(href=`/posts/${post.id}`)= post.title
+                    li Posted On #{(d.getMonth()+1).toString().padStart(2,'0')}-#{d.getDate().toString().padStart(2,'0')}-#{d.getFullYear().toString().slice(2)}
+
+                    if post.content.length > 40
+                        li.preview Preview: 
+                        li.previewContent #{post.content.slice(0, 120)}...
+                    else
+                        li.preview Preview: 
+                        li.previewContent #{post.content}
+                    if user
+                        li
+                            a#addAComment(href=`/posts/${post.id}#createComment`) Add Comment

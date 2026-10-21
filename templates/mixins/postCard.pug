@@ -1,0 +1,16 @@
+mixin postCard(post)
+    - const d = new Date(post.created)
+    - const team = post.category.toLowerCase()
+    article.singlePost(class=`team-${team}`)
+        .cardMeta
+            a.teamTag(href=`/${team}`)= post.category
+            span.postDate #{(d.getMonth()+1).toString().padStart(2,'0')}-#{d.getDate().toString().padStart(2,'0')}-#{d.getFullYear().toString().slice(2)}
+        a.t(href=`/posts/${post.id}`)= post.title
+        if post.content.length > 120
+            p.previewContent #{post.content.slice(0, 120)}...
+        else
+            p.previewContent #{post.content}
+        .cardFooter
+            span.byline By #{post.user}
+            if user
+                a.addAComment(href=`/posts/${post.id}#createComment`) Add Comment

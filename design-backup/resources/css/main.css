@@ -1,0 +1,588 @@
+body {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Roboto', sans-serif;
+}
+  
+.logo {
+    width: 100vw;
+    height: 15vh;
+    background-color: rgb(58, 58, 58);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo h1{
+    color: white;
+    font-size: 55pt;
+    margin: 0;
+    font-family: 'Audiowide';
+}
+
+.content{
+    /* background-color: pink; */
+    width: 100vw;
+    height: 85vh;
+    display: flex;
+}
+
+.sidebar{
+    height: 100%;
+    width: 20%;
+    background-color: lightgray;
+    text-align: center;
+    position: relative;
+    border-right: 5px solid rgb(58, 58, 58);;
+}
+
+.sidebar .post{
+    position: absolute;
+    bottom: 13%;         
+    left: 50%;          
+    transform: translateX(-50%);
+    border-radius: 4px;
+    background-color: white;
+    color: black;
+    font-size: 18pt;
+    width: 60%;
+    padding: 3px;
+}
+
+.post:hover{
+    background-color: rgb(58, 58, 58);
+    color: white;
+}
+
+.sidebar h2{
+    font-size: 28pt;
+    margin: 0;
+    margin-top: 20%;
+    margin-bottom: 15%;
+}
+
+.center{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    width: 80%;
+    background-color: antiquewhite;
+    overflow-y: scroll;
+}
+
+.categories{
+    list-style: none;
+    margin: 0;
+    padding-left: 20px;  
+    text-align: left;    
+    font-size: 20pt;  
+}
+
+.categories li a{
+    margin-bottom: 17px;
+}
+
+.categories li a {
+    text-decoration: none; 
+    color: black;        
+    display: block;        
+    cursor: pointer;              
+}
+
+.categories>li>a:hover{
+    font-weight: bold;
+}
+
+.center h1{
+    text-align: center;
+    font-size: 50pt;
+    /* height: 10%; */
+    width: 100%;
+}
+
+.center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+
+.formdiv {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+
+#createPost {
+    width: 35%;
+    border: 4px solid black;
+    border-radius: 15px;
+    padding: 1.2rem;        
+    display: flex;
+    flex-direction: column;  
+    gap: 1rem;               
+    background-color: white; 
+    font-size: 14pt;
+}
+
+
+.row {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; 
+    gap: 10px;
+    width: 100%;
+}
+
+textarea {
+    width: 98.5%;
+    max-width: 98.5%;
+    min-width: 98.5%;
+    font-size: 16px;
+    max-height: 200px;
+    min-height: 200px;
+}
+
+#createPost>label{
+    font-weight: bold;
+}
+
+#submitButton{
+    margin-top: 10px;
+}
+
+#submitButton:hover{
+    color: white;
+    background-color: rgb(58, 58, 58);
+    border-radius: 2pt;
+}
+
+#title{
+    height: 30px;
+    font-size: 16pt;
+}
+
+.posts{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 40%;
+    /* gap: 15px; */
+}
+
+.singlePost{
+    border: 4px solid black;
+    background-color: rgb(237, 237, 237);
+    border-radius: 10pt;
+    width: 100%;
+    margin-bottom: 17px;;
+}
+
+.singlePost>ul{
+    list-style: none;
+    padding-right: 40px;
+}
+
+.t{
+    margin-bottom: 6px;
+    font-size: 20pt;
+    font-weight: bold;
+    text-decoration:none; 
+    color: black;        
+    display: block;        
+    cursor: pointer;  
+}
+
+.t:hover{
+    text-decoration:underline;
+}
+
+.individualTitle{
+    margin-bottom: 0;
+}
+
+.postContent{
+    width: 60%;
+    white-space: pre-wrap;
+}
+
+#viewCommentsButton{
+    padding: 8px 14px;
+    background-color: white;
+    color: black;
+    border-radius: 4px;
+    text-decoration: none;
+    cursor: pointer;
+    border: 2px solid black;
+    font-size: 17pt;
+    margin-top: 2%;
+    margin-bottom: 3%;
+}
+
+#viewCommentsButton:hover {
+    background-color: rgb(58, 58, 58);
+    color: white;
+}
+
+#createComment {
+    width: 35%;
+    border: 4px solid black;
+    border-radius: 15px;
+    padding: 1.2rem;        
+    display: flex;
+    flex-direction: column;  
+    gap: 1rem;               
+    background-color: white; 
+    font-size: 14pt;
+    margin-bottom: 3%;
+}
+
+#createComment>label{
+    font-weight: bold;
+}
+
+#addAComment{
+    text-decoration: none; 
+    color: black;        
+    display: block;        
+    cursor: pointer;  
+    margin-top: 6px;
+    font-weight: bold;
+}
+
+#addAComment:hover{
+    text-decoration: underline; 
+}
+
+.postedOn{
+    width: 60%;
+    margin-top: 2%;
+}
+
+.postedBy{
+    width: 60%;
+    margin-top: 0;
+}
+
+.preview{
+    white-space: pre-wrap;
+    margin-top: 14px;
+    font-weight: bold;
+    font-size: 14pt;
+}
+
+.previewContent{
+    margin-bottom: 16px;
+}
+
+.comments{
+    width: 50%;
+}
+.singleComment{
+    width: 100%;
+    border-top: 1px solid lightgrey;
+    padding: 10px 0;
+    margin: 5px 0;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.singleComment:last-child {
+    border-bottom: 1px solid lightgrey;
+}
+
+.commentName{
+    font-weight: bold;
+    font-size: 16pt;
+    margin-bottom: 12px;
+}
+
+.singleComment li{
+    list-style: none;
+}
+
+.singleComment ul{
+    padding-right: 40px;
+}
+
+#editPostButton{
+    padding: 4px 7px;
+    background-color: white;
+    color: black;
+    border-radius: 4px;
+    text-decoration: none;
+    cursor: pointer;
+    border: 2px solid black;
+    font-size: 12pt;
+    margin-top: 1%;
+    margin-bottom: 1%;
+}
+
+#editPostButton:hover {
+    background-color: rgb(58, 58, 58);
+    color: white;
+}
+
+#editPost {
+    width: 35%;
+    border: 4px solid black;
+    border-radius: 15px;
+    padding: 1.2rem;        
+    display: flex;
+    flex-direction: column;  
+    gap: 1rem;               
+    background-color: white; 
+    font-size: 14pt;
+    margin-bottom: 26px;
+}
+
+#editPost>label{
+    font-weight: bold;
+}
+
+.editButtons{
+    display: flex;
+    justify-content: space-between;
+    gap: 25px;
+    margin-top: 20px;
+}
+
+#deletePostButton{
+    padding: 4px 7px;
+    background-color: white;
+    color: black;
+    border-radius: 4px;
+    text-decoration: none;
+    cursor: pointer;
+    border: 2px solid black;
+    font-size: 12pt;
+    margin-top: 1%;
+    margin-bottom: 1%;
+}
+
+#deletePostButton:hover {
+    background-color: rgb(58, 58, 58);
+    color: white;
+}
+
+.browse{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#prevOn{
+    padding: 4px 7px;
+    background-color: white;
+    color: black;
+    border-radius: 4px;
+    text-decoration: none;
+    cursor: pointer;
+    border: 2px solid black;
+    font-size: 12pt;
+    margin-top: 1%;
+    margin-bottom: 1%;
+    margin-right: 50px;
+}
+
+#prevOn:hover {
+    background-color: rgb(58, 58, 58);
+    color: white;
+}
+
+#prevOff{
+    padding: 4px 7px;
+    background-color: lightgray;
+    color: black;
+    border-radius: 4px;
+    text-decoration: none;
+    cursor: default;
+    border: 2px solid black;
+    font-size: 12pt;
+    margin-top: 1%;
+    margin-bottom: 1%;
+    margin-right: 50px;
+}
+
+#nextOn{
+    padding: 4px 7px;
+    background-color: white;
+    color: black;
+    border-radius: 4px;
+    text-decoration: none;
+    cursor: pointer;
+    border: 2px solid black;
+    font-size: 12pt;
+    margin-top: 1%;
+    margin-bottom: 1%;
+    margin-left: 50px;
+}
+
+#nextOn:hover {
+    background-color: rgb(58, 58, 58);
+    color: white;
+}
+
+#nextOff{
+    padding: 4px 7px;
+    background-color: lightgray;
+    color: black;
+    border-radius: 4px;
+    text-decoration: none;
+    cursor: default;
+    border: 2px solid black;
+    font-size: 12pt;
+    margin-top: 1%;
+    margin-bottom: 1%;
+    margin-left: 50px;
+}
+
+.editCommentButton{
+    padding: 3px 6px;
+    background-color: white;
+    color: black;
+    border-radius: 4px;
+    text-decoration: none;
+    cursor: pointer;
+    border: 2px solid black;
+    font-size: 10pt;
+    margin-top: 1%;
+    margin-bottom: 1%;
+    margin-left: 40px;
+    margin-right: 30px;
+}
+
+.editCommentButton:hover {
+    background-color: rgb(58, 58, 58);
+    color: white;
+}
+
+.deleteCommentButton{
+    padding: 3px 6px;
+    background-color: white;
+    color: black;
+    border-radius: 4px;
+    text-decoration: none;
+    cursor: pointer;
+    border: 2px solid black;
+    font-size: 10pt;
+    margin-top: 1%;
+    margin-bottom: 1%;
+}
+
+.deleteCommentButton:hover {
+    background-color: rgb(58, 58, 58);
+    color: white;
+}
+
+.commentButtons{
+    display: flex;
+    margin-top: 10px;
+}
+
+#editComment{
+    width: 35%;
+    border: 4px solid black;
+    border-radius: 15px;
+    padding: 1.2rem;        
+    display: flex;
+    flex-direction: column;  
+    gap: 1rem;               
+    background-color: white; 
+    font-size: 14pt;
+    margin-bottom: 26px;
+}
+
+#editComment>label{
+    font-weight: bold;
+}
+
+.status{
+    font-size: 16pt;
+    font-weight: bold;
+}
+
+.green{
+    font-weight: 400;
+    color: green;
+}
+
+.red{
+    font-weight: 400;
+    color: red;
+}
+
+.logout{
+    position: absolute;
+    bottom: 5%;         
+    left: 50%;          
+    transform: translateX(-50%);
+    border-radius: 4px;
+    background-color: white;
+    color: black;
+    font-size: 18pt;
+    width: 60%;
+    padding: 3px;
+}
+
+.logout:hover{
+    background-color: rgb(58, 58, 58);
+    color: white;
+}
+
+.login{
+    position: absolute;
+    bottom: 13%;         
+    left: 50%;          
+    transform: translateX(-50%);
+    border-radius: 4px;
+    background-color: white;
+    color: black;
+    font-size: 18pt;
+    width: 60%;
+    padding: 3px;
+}
+
+.login:hover{
+    background-color: rgb(58, 58, 58);
+    color: white;
+}
+
+.register{
+    position: absolute;
+    bottom: 5%;         
+    left: 50%;          
+    transform: translateX(-50%);
+    border-radius: 4px;
+    background-color: white;
+    color: black;
+    font-size: 18pt;
+    width: 60%;
+    padding: 3px;
+}
+
+.register:hover{
+    background-color: rgb(58, 58, 58);
+    color: white;
+}
+
+#account {
+    width: 35%;
+    border: 4px solid black;
+    border-radius: 15px;
+    padding: 1.2rem;        
+    display: flex;
+    flex-direction: column;  
+    gap: 1rem;               
+    background-color: white; 
+    font-size: 14pt;
+}
+
+#account>label{
+    font-weight: bold;
+}

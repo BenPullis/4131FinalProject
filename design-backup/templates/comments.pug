@@ -1,0 +1,15 @@
+extends static.pug
+
+block centerContent
+    h1 Comments
+    ul.comments
+        each c in comments
+            .singleComment 
+                ul 
+                    li.commentName #{c.commenter_name}
+                    li #{c.comment}
+                if user && (user.admin || user.username == c.commenter_name)
+                    .commentButtons
+                        a.editCommentButton(href=`/editComment/${c.comment_id}`) Edit Comment
+                        a.deleteCommentButton(data-id=c.comment_id) Delete Comment
+    script(src='/js/deleteComment.js' defer='')

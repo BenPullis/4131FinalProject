@@ -1,0 +1,31 @@
+extends static.pug
+
+block centerContent
+    - const d = new Date(post.created)
+    - const team = post.category.toLowerCase()
+    article.postFull(class=`team-${team}`)
+        .cardMeta
+            a.teamTag(href=`/${team}`)= post.category
+            span.postDate Posted On #{(d.getMonth()+1).toString().padStart(2,'0')}-#{d.getDate().toString().padStart(2,'0')}-#{d.getFullYear().toString().slice(2)}
+        h1.individualTitle #{post.title}
+        p.postedBy By #{post.user}
+        if user && (user.admin || user.username == post.user)
+            .editButtons
+                a#editPostButton.btn.btnSmall(href=`/editPost/${post.id}`) Edit Post
+                button#deletePostButton.btn.btnSmall.btnDanger(type="button" data-id=post.id) Delete Post
+        p.postContent #{post.content}
+        a#viewCommentsButton.btn.btnPrimary(href=`/comments/${post.id}`) View Comments (#{post.commentCount})
+    if user
+        .formdiv
+            form#createComment.formCard
+                h2 Add A Comment
+                input(type="hidden" id="postId" name="postId" value=post.id)
+
+                input(type="hidden" name="name" id="title" value=user.username)
+
+                label.label(for='content') Comment:
+                textarea(name="content" id="content" placeholder="Write your comment...")
+
+                button#submitButton.btn.btnPrimary(type='submit') Submit Comment
+    script(src='/js/comment.js' defer='')
+    script(src='/js/deletePost.js' defer='')
