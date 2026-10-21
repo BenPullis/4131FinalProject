@@ -2,7 +2,7 @@
 
 A full-stack sports blog where Minnesota fans can share posts and discuss the Vikings, Wild, Timberwolves, and Twins.
 
-**Live site:** https://YOUR-SERVICE-NAME.onrender.com
+**Live site:** https://sotasportstalk.onrender.com/
 *(Hosted on Render's free tier, so the first load after a quiet period can take up to a minute.)*
 
 Originally built as the final project for CSCI 4131 (Internet Programming) at the University of Minnesota, Fall 2025.
